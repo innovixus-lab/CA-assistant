@@ -354,9 +354,8 @@ function Hero() {
           variants={fadeUp} initial="hidden" animate="visible" custom={2}
           className="mt-6 text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed"
         >
-          Deliver documents via WhatsApp instantly, manage tasks across your team,
-          raise GST invoices, and give every client their own self-serve portal —
-          all in one beautifully organised workspace.
+          Manage client records, tasks, GST invoices, and team workflows — all from
+          one dashboard. Upgrade to unlock WhatsApp document delivery to every client.
         </motion.p>
 
         {/* CTA buttons */}
@@ -386,9 +385,9 @@ function Hero() {
           className="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-8"
         >
           {[
-            { icon: <Zap size={14} />, label: 'Official WhatsApp API' },
+            { icon: <Zap size={14} />,       label: 'Free trial on Starter plan' },
             { icon: <Building2 size={14} />, label: 'Built for Indian CAs' },
-            { icon: <Clock size={14} />, label: 'Setup in under an hour' },
+            { icon: <Clock size={14} />,     label: 'Setup in under an hour' },
           ].map(b => (
             <div key={b.label} className="flex items-center gap-2 text-zinc-400 text-sm">
               <span className="text-indigo-400">{b.icon}</span>
@@ -1160,25 +1159,28 @@ function HowItWorks() {
    PRICING
 ══════════════════════════════════════════════════════════════════════════════ */
 function Pricing() {
-  const commonFeatures = [
-    'Records Vault (all doc types)',
-    'WhatsApp delivery (official API)',
-    'Tasks & team management',
-    'GST-ready invoicing',
-    'Client portal with PIN',
-    'Email support',
-  ];
-
+  // Starter has NO WhatsApp — it gets the free trial CTA
+  // Growth + Pro include WhatsApp — they go straight to login/contact
   const plans = [
     {
       name: 'Starter',
       price: '₹5,000',
       period: '/year',
-      desc: 'For solo CAs or small partnerships starting to go digital.',
+      desc: 'For solo CAs starting to go digital. Includes a 14-day free trial.',
       clients: '100 clients',
       storage: '1 GB storage',
       users: '2 team members',
       highlight: false,
+      trialBadge: true,   // only Starter gets free trial
+      cta: 'Start free trial',
+      features: [
+        { text: 'Records Vault (all doc types)', included: true },
+        { text: 'Tasks & team management',       included: true },
+        { text: 'GST-ready invoicing',           included: true },
+        { text: 'Client portal with PIN',        included: true },
+        { text: 'Email support',                 included: true },
+        { text: 'WhatsApp delivery',             included: false, note: 'Not included' },
+      ],
       extra: [],
     },
     {
@@ -1190,7 +1192,18 @@ function Pricing() {
       storage: '5 GB storage',
       users: '10 team members',
       highlight: true,
-      extra: ['Performance analytics', 'Priority support'],
+      trialBadge: false,
+      cta: 'Get started',
+      features: [
+        { text: 'Records Vault (all doc types)', included: true },
+        { text: 'WhatsApp delivery (official API)', included: true },
+        { text: 'Tasks & team management',       included: true },
+        { text: 'GST-ready invoicing',           included: true },
+        { text: 'Client portal with PIN',        included: true },
+        { text: 'Performance analytics',         included: true },
+        { text: 'Priority support',              included: true },
+      ],
+      extra: [],
     },
     {
       name: 'Pro',
@@ -1201,7 +1214,19 @@ function Pricing() {
       storage: '10 GB storage',
       users: 'Unlimited members',
       highlight: false,
-      extra: ['Performance analytics', 'Custom branding', 'Dedicated support'],
+      trialBadge: false,
+      cta: 'Get started',
+      features: [
+        { text: 'Records Vault (all doc types)', included: true },
+        { text: 'WhatsApp delivery (official API)', included: true },
+        { text: 'Tasks & team management',       included: true },
+        { text: 'GST-ready invoicing',           included: true },
+        { text: 'Client portal with PIN',        included: true },
+        { text: 'Performance analytics',         included: true },
+        { text: 'Custom branding',               included: true },
+        { text: 'Dedicated support',             included: true },
+      ],
+      extra: [],
     },
   ];
 
@@ -1215,7 +1240,7 @@ function Pricing() {
           <p className="text-indigo-400 text-sm font-medium uppercase tracking-widest mb-3">Transparent pricing</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-zinc-50">Simple annual pricing, no surprises</h2>
           <p className="mt-3 text-zinc-400 max-w-lg mx-auto">
-            Every plan includes a 14-day free trial. No credit card needed to start.
+            Start free on the Starter plan — no credit card needed. Upgrade when you're ready for WhatsApp delivery.
           </p>
         </motion.div>
 
@@ -1234,6 +1259,7 @@ function Pricing() {
                     : 'border-white/8 bg-white/[0.04] hover:border-indigo-500/25 hover:bg-white/[0.06]'
                 )}
               >
+                {/* Most popular badge */}
                 {p.highlight && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
                     <span className="px-4 py-1 rounded-full bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-500/40">
@@ -1242,8 +1268,16 @@ function Pricing() {
                   </div>
                 )}
 
+                {/* Header */}
                 <div className="mb-6">
-                  <h3 className="text-lg font-bold text-zinc-100 mb-1">{p.name}</h3>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-lg font-bold text-zinc-100">{p.name}</h3>
+                    {p.trialBadge && (
+                      <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/25 text-emerald-400 text-xs font-semibold">
+                        14-day free trial
+                      </span>
+                    )}
+                  </div>
                   <p className="text-xs text-zinc-500 mb-4">{p.desc}</p>
                   <div className="flex items-end gap-1">
                     <span className="text-4xl font-black text-zinc-50">{p.price}</span>
@@ -1260,43 +1294,68 @@ function Pricing() {
                   ))}
                 </div>
 
-                {/* Common features */}
-                <ul className="space-y-2 mb-4 flex-1">
-                  {commonFeatures.map(f => (
-                    <li key={f} className="flex items-start gap-2 text-sm text-zinc-400">
-                      <Check size={14} className="text-indigo-400 mt-0.5 flex-shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                  {p.extra.map(f => (
-                    <li key={f} className="flex items-start gap-2 text-sm text-zinc-300">
-                      <Check size={14} className="text-emerald-400 mt-0.5 flex-shrink-0" />
-                      {f}
+                {/* Per-plan feature list */}
+                <ul className="space-y-2.5 mb-6 flex-1">
+                  {p.features.map(f => (
+                    <li key={f.text} className="flex items-start gap-2.5 text-sm">
+                      {f.included ? (
+                        <Check size={14} className="text-indigo-400 mt-0.5 flex-shrink-0" />
+                      ) : (
+                        <X size={14} className="text-zinc-600 mt-0.5 flex-shrink-0" />
+                      )}
+                      <span className={f.included ? 'text-zinc-300' : 'text-zinc-600 line-through'}>
+                        {f.text}
+                      </span>
+                      {!f.included && f.note && (
+                        <span className="text-xs text-zinc-600 italic ml-0.5">— {f.note}</span>
+                      )}
                     </li>
                   ))}
                 </ul>
 
+                {/* CTA */}
                 <button
                   onClick={() => navigate('/login')}
                   className={cn(
-                    'mt-4 block w-full text-center py-3 rounded-xl font-semibold text-sm transition-all duration-200 cursor-pointer',
-                    p.highlight
+                    'block w-full text-center py-3 rounded-xl font-semibold text-sm transition-all duration-200 cursor-pointer',
+                    p.trialBadge
+                      ? 'bg-emerald-500 hover:bg-emerald-400 text-white shadow-lg shadow-emerald-500/25'
+                      : p.highlight
                       ? 'bg-indigo-500 hover:bg-indigo-400 text-white shadow-lg shadow-indigo-500/30'
                       : 'bg-white/8 hover:bg-white/12 text-zinc-100 border border-white/10'
                   )}
                 >
-                  Start free trial
+                  {p.cta}
                 </button>
+
+                {/* Trial note only on Starter */}
+                {p.trialBadge && (
+                  <p className="text-center text-xs text-zinc-600 mt-2">No credit card required</p>
+                )}
               </div>
             </motion.div>
           ))}
         </div>
 
+        {/* WhatsApp callout note */}
+        <motion.div
+          variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
+          className="mt-8 mx-auto max-w-xl rounded-xl bg-emerald-500/[0.06] border border-emerald-500/20 px-5 py-4 flex items-start gap-3"
+        >
+          <MessageSquare size={16} className="text-emerald-400 mt-0.5 flex-shrink-0" />
+          <p className="text-sm text-zinc-400">
+            <span className="text-emerald-400 font-semibold">WhatsApp delivery</span> is available on{' '}
+            <span className="text-zinc-200 font-medium">Growth</span> and{' '}
+            <span className="text-zinc-200 font-medium">Pro</span> plans only.
+            Try the Starter plan free — upgrade any time to unlock WhatsApp.
+          </p>
+        </motion.div>
+
         <motion.p
           variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}
-          className="text-center mt-8 text-sm text-zinc-500"
+          className="text-center mt-5 text-xs text-zinc-600"
         >
-          All prices in INR · GST extra · Annual billing · Cancel any time within trial period
+          All prices in INR · GST extra · Annual billing · Starter plan includes 14-day free trial
         </motion.p>
       </div>
     </Section>
