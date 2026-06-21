@@ -1,0 +1,8 @@
+{
+  "name": "FinnCA - Professional CA Manager",
+  "description": "Information-dense dashboard for Chartered Accountants to manage clients, tasks, and auto-detected documents from WhatsApp and Email.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

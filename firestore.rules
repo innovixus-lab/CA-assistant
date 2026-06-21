@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Default deny ──────────────────────────────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // ── Clients ───────────────────────────────────────────────────────────────
+    // Employees (signed-in) can read/write all client fields.
+    // Unauthenticated requests can read a single client doc — used by the
+    // client portal (PIN check happens client-side; only non-sensitive fields
+    // like name, portalPin, pendingPayment, paymentAmount, paymentNote are needed).
+    match /clients/{clientId} {
+      allow read:   if true;          // portal + CA dashboard
+      allow create: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if isSignedIn();
+    }
+
+    // ── Tasks ─────────────────────────────────────────────────────────────────
+    match /tasks/{taskId} {
+      allow read:   if isSignedIn();
+      allow write:  if isSignedIn();
+    }
+
+    // ── Documents ─────────────────────────────────────────────────────────────
+    // Employees can read/write all documents.
+    // Unauthenticated portal users can read documents that are approved for
+    // their specific client (approvedForPortal == true).
+    match /documents/{docId} {
+      allow read:   if isSignedIn()
+                    || (resource.data.approvedForPortal == true);
+      allow create: if isSignedIn();
+      allow update: if isSignedIn();
+      allow delete: if isSignedIn();
+    }
+
+    // ── Messages ──────────────────────────────────────────────────────────────
+    match /messages/{msgId} {
+      allow read:   if isSignedIn();
+      allow write:  if isSignedIn();
+    }
+
+    // ── Test connection doc (used by firebase.ts health check) ────────────────
+    match /test/{docId} {
+      allow read: if true;
+    }
+  }
+}

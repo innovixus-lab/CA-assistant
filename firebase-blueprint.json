@@ -1,0 +1,98 @@
+{
+  "entities": {
+    "client": {
+      "title": "Client",
+      "description": "A client of the CA firm",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "pan": { "type": "string" },
+        "gstNumber": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email"]
+    },
+    "employee": {
+      "title": "Employee",
+      "description": "Staff of the CA firm",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["admin", "employee"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "role"]
+    },
+    "task": {
+      "title": "Task",
+      "description": "Work assigned to an employee for a client",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "employeeId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "in-progress", "completed"] },
+        "dueDate": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clientId", "title", "status"]
+    },
+    "document": {
+      "title": "Document",
+      "description": "A file uploaded or received for a client",
+      "type": "object",
+      "properties": {
+        "clientId": { "type": "string" },
+        "fileName": { "type": "string" },
+        "fileUrl": { "type": "string", "format": "uri" },
+        "category": { "type": "string", "enum": ["Income Tax", "GST", "Audit", "Other"] },
+        "direction": { "type": "string", "enum": ["incoming", "outgoing"] },
+        "status": { "type": "string", "enum": ["review", "processed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["clientId", "fileName", "fileUrl", "direction"]
+    },
+    "inboxItem": {
+      "title": "Inbox Item",
+      "description": "A message received via WhatsApp or Email",
+      "type": "object",
+      "properties": {
+        "senderName": { "type": "string" },
+        "channel": { "type": "string", "enum": ["whatsapp", "email"] },
+        "body": { "type": "string" },
+        "attachmentUrl": { "type": "string", "format": "uri" },
+        "clientId": { "type": "string" },
+        "isProcessed": { "type": "boolean" },
+        "receivedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["channel", "body", "receivedAt"]
+    }
+  },
+  "firestore": {
+    "/clients/{clientId}": {
+      "schema": "client",
+      "description": "Root collection for clients"
+    },
+    "/employees/{employeeId}": {
+      "schema": "employee",
+      "description": "Root collection for staff"
+    },
+    "/tasks/{taskId}": {
+      "schema": "task",
+      "description": "Work tracking"
+    },
+    "/documents/{docId}": {
+      "schema": "document",
+      "description": "File metadata"
+    },
+    "/inbox/{itemId}": {
+      "schema": "inboxItem",
+      "description": "Raw incoming messages"
+    }
+  }
+}

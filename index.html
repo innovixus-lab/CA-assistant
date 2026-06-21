@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinnCA — CA Practice Management, Simplified</title>
+    <meta name="description" content="FinnCA is the all-in-one practice management platform for Chartered Accountants in India. WhatsApp document delivery, GST invoicing, task board, client portal and more." />
+    <meta name="theme-color" content="#0A0A0B" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="FinnCA — CA Practice Management, Simplified" />
+    <meta property="og:description" content="Deliver client documents via WhatsApp instantly, manage tasks, raise GST invoices — all from one dashboard built for Indian CAs." />
+    <meta property="og:type" content="website" />
+    <!-- Apply saved theme before React loads to prevent flash -->
+    <script>
+      (function() {
+        var t = localStorage.getItem('finnca_theme') || 'dark';
+        document.documentElement.classList.add(t);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
